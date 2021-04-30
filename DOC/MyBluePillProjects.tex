@@ -133,6 +133,8 @@ The SW setup is based on VSCode with PlatformIO extension and STM32 board operat
 The HW setup allows to program the board with an ST-Link V2 adapter and also serial communications with a (Linux) PC
 via a USB/Serial adapter.
 
+In a second HW setup the control of a LCD via the I2C interface is tested.
+
 The "Blue Pill" STM32 board has a STM32F103C8T6 processor with 20KB RAM and 64KB EEPROM running at 72MHz.
 See also \href{https://docs.platformio.org/en/latest//boards/ststm32/bluepill_f103c8.html}{"Blue Pill F103C8" in PlatformIO}.
 
@@ -185,7 +187,7 @@ The connection between the USB/Serial adapter and the Blue Pill board is done as
 The USB/Serial adapter appears under /dev/ttyUSB0 in the Linux operating system. This port has to be selected in the IDE, when the Serial Monitor is activated.
 
 \newpage
-\section{Project Software Setup}
+\section{Project Software Setup (first sketch)}
 The project setup for the IDE part with the first Arduino sketch is shown in figure \ref{fig:IDESetup}.
 \begin{figure}[htbp]
 	\centering
@@ -210,6 +212,41 @@ Program download is done by pressing the "Right Arrow" button.
 Activation of the Serial Arduino Monitor is done with the "Plug" button.
 
 To switch back to the PlatofromIO home screen is done with the "Home" button. 
+
+\subsection{LCD control via I2C (second sketch)}
+The IDE with the second Arduino sketch is shown in figure \ref{fig:IDESetup2}.
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.85\linewidth]{Figures/Test_BluePill_I2C_LCD_IDE.png}
+	\caption{VSCode/PlatformIO IDE (second sketch)}
+	\label{fig:IDESetup2}
+\end{figure}
+The sketch controls a 16x4 character LCD connected to the "Blue Pill" board via the I2C interface.\\
+
+The HW setup for this test is shown in figure \ref{fig:HWSetupI2CLCD}
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.85\linewidth]{Figures/Test_BluePill_I2C_LCD_HWSetup.jpeg}
+	\caption{VSCode/PlatformIO IDE (second sketch)}
+	\label{fig:HWSetupI2CLCD}
+\end{figure}
+The connection from the ST-Link V2 adapter to the "Blue Pill" board is now using the 5V pins according to the following table.
+The 3.3V for the processor is now provided by the on-board fixed power regulator. The 5V power supply is also required for the LCD.
+\begin{center}
+	\begin{tabular}{|c|c|c|}
+		\hline
+		\textbf{Blue Pill} & \textbf{Cable color} & \textbf{ST-Link V2} \\
+		\hline
+		GND & Brown & GND (Pin 6) \\
+		\hline
+		5V & Red & 5V (Pin 10) \\
+		\hline
+		CLK & Orange & SWCLK (Pin 2) \\
+		\hline
+		DIO & Yellow & SWDIO (Pin 4) \\
+		\hline
+	\end{tabular}
+\end{center}
 
 \newpage
 \appendix
