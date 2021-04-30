@@ -15,6 +15,7 @@ LCD16x4 lcd;
 
 void setup()
 {
+  Serial.begin(9600);
   // put your setup code here, to run once:
   lcd.begin();                      // initialize the lcd 
   // Print messages to the LCD.
@@ -26,10 +27,12 @@ void setup()
   lcd.setCursor(0,3);
   lcd.print("Line 4");
   delay(2000);
+  Serial.println("Setup done");
 }
 
 void loop()
 {
+  Serial.println("-*-");
   // clear LCD and then fill all 4 lines repeatedly
   lcd.clear();
   lcd.setCursor(0,0);

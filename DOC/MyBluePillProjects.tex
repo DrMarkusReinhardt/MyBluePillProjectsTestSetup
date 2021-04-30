@@ -125,7 +125,7 @@
 % the main text
 \newpage
 \pagestyle{scrheadings}
-\section{Project goal}
+\section{Project goals}
 The project is created to test the HW / SW setup for projects based on the so-called "Blue Pill STM32 board".
 
 The SW setup is based on VSCode with PlatformIO extension and STM32 board operated with the Arduino environment.
@@ -138,7 +138,7 @@ In a second HW setup the control of a LCD via the I2C interface is tested.
 The "Blue Pill" STM32 board has a STM32F103C8T6 processor with 20KB RAM and 64KB EEPROM running at 72MHz.
 See also \href{https://docs.platformio.org/en/latest//boards/ststm32/bluepill_f103c8.html}{"Blue Pill F103C8" in PlatformIO}.
 
-\section{Project Hardware setup}
+\section{Project 1 Hardware Setup}
 The project setup for the HW part is shown in figure \ref{fig:HWSetup}.
 \begin{figure}[htbp]
 	\centering
@@ -150,8 +150,9 @@ The project setup for the HW part is shown in figure \ref{fig:HWSetup}.
 Note: The jumper positions of the two yellow jumpers on the (blue colored) "Blue Pill" board.\\
 
 Programming is done with the (metallic blue) ST-Link V2 module. There are four pins connected with the Blue Pill board.
-The connections are done as follows:
-\begin{center}
+The connections are done as follows (Table \ref{table:ConnectionSTLink1}):
+\begin{table}[htbp]
+\centering
 \begin{tabular}{|c|c|c|}
 	\hline
 	\textbf{Blue Pill} & \textbf{Cable color} & \textbf{ST-Link V2} \\
@@ -165,13 +166,16 @@ The connections are done as follows:
 	DIO & Yellow & SWDIO (Pin 4) \\
 	\hline
 \end{tabular}
-\end{center}
+\caption{Connection Blue Pill to ST-Link V2}
+\label{table:ConnectionSTLink1}
+\end{table}
 
 A USART serial interfacing between the Blue Pill board and the PC / IDE is realized with the (red) USB/Serial adapter board.
 Note the jumper position on the board is such that the 3.3V output voltage is provided (but not connected in this setup) as the "Blue
 Pill" processor is operated with 3.3V. In the software the Arduino Serial1 interface port is used.
-The connection between the USB/Serial adapter and the Blue Pill board is done as follows:
-\begin{center}
+The connection between the USB/Serial adapter and the Blue Pill board is done as follows (Table \ref{table:ConnectionSerial1}):
+\begin{table}[htbp]
+\centering
 \begin{tabular}{|c|c|c|}
 	\hline
 	\textbf{Blue Pill} & \textbf{Cable color} & \textbf{USB/Serial} \\
@@ -183,11 +187,13 @@ The connection between the USB/Serial adapter and the Blue Pill board is done as
 	RX1 (Pin PA10) & Brown & TX \\
 	\hline
 \end{tabular}
-\end{center}
+\caption{Connection Blue Pill to USB/Serial adapter (Setup 1)}
+\label{table:ConnectionSerial1}
+\end{table}
+
 The USB/Serial adapter appears under /dev/ttyUSB0 in the Linux operating system. This port has to be selected in the IDE, when the Serial Monitor is activated.
 
-\newpage
-\section{Project Software Setup (first sketch)}
+\section{Project 1 Software Setup (first sketch)}
 The project setup for the IDE part with the first Arduino sketch is shown in figure \ref{fig:IDESetup}.
 \begin{figure}[htbp]
 	\centering
@@ -197,7 +203,7 @@ The project setup for the IDE part with the first Arduino sketch is shown in fig
 \end{figure}
 The picture shows the PlatformIO IDE within the VSCode editor and the main Arduino sketch which implements the simple blinking of the on-board LED and the output of data via the Serial1 port.
 
-The picture also shows the output of dots (see the sketch code) via the USB/Serial adapter and the Serial1 Arduino port
+The picture also shows the output of dots (see the sketch code) via the USB/Serial adapter and the Serial1 Arduino interface
 to the Arduino Serial Monitor displayed in the lower part of the IDE.\\
 
 The development cycle is controlled by pressing the relevant buttons in the blue bottom line of the IDE (see the call-outs of the buttons when moving over them with the mouse pointer).\\
@@ -213,7 +219,7 @@ Activation of the Serial Arduino Monitor is done with the "Plug" button.
 
 To switch back to the PlatofromIO home screen is done with the "Home" button. 
 
-\subsection{LCD control via I2C (second sketch)}
+\subsection{Project 2: LCD control via I2C (second sketch)}
 The IDE with the second Arduino sketch is shown in figure \ref{fig:IDESetup2}.
 \begin{figure}[htbp]
 	\centering
@@ -222,17 +228,20 @@ The IDE with the second Arduino sketch is shown in figure \ref{fig:IDESetup2}.
 	\label{fig:IDESetup2}
 \end{figure}
 The sketch controls a 16x4 character LCD connected to the "Blue Pill" board via the I2C interface.\\
+In this sketch the Serial Arduino interface is used for test messages to the Serial Monitor of the IDE. It is connected to pins PA9 (TX1) and PA10 (RX1) and via the USB/Serial adapter to the PC. The IDE shows in the lower part the Serial Monitor and the messages received from the "Blue Pill" board.\\
 
 The HW setup for this test is shown in figure \ref{fig:HWSetupI2CLCD}
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.85\linewidth]{Figures/Test_BluePill_I2C_LCD_HWSetup.jpeg}
+	\includegraphics[width=1.0\linewidth]{Figures/Test_BluePill_I2C_LCD_HWSetup.jpeg}
 	\caption{VSCode/PlatformIO IDE (second sketch)}
 	\label{fig:HWSetupI2CLCD}
 \end{figure}
-The connection from the ST-Link V2 adapter to the "Blue Pill" board is now using the 5V pins according to the following table.
+The connection from the ST-Link V2 adapter to the "Blue Pill" board is now using the 5V pins according to the following table
+(Table \ref{table:ConnectionSTLink2}).
 The 3.3V for the processor is now provided by the on-board fixed power regulator. The 5V power supply is also required for the LCD.
-\begin{center}
+\begin{table}[htbp]
+	\centering
 	\begin{tabular}{|c|c|c|}
 		\hline
 		\textbf{Blue Pill} & \textbf{Cable color} & \textbf{ST-Link V2} \\
@@ -246,9 +255,31 @@ The 3.3V for the processor is now provided by the on-board fixed power regulator
 		DIO & Yellow & SWDIO (Pin 4) \\
 		\hline
 	\end{tabular}
-\end{center}
+\caption{Connection "Blue Pill" to USB/Serial adapter (Setup 2)}
+\label{table:ConnectionSTLink2}
+\end{table}
+The connection between the "Blue Pill" board and the I2C adapter of the LCD is done here as follows (Table \ref{table:ConnectionI2C}):
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+		\textbf{Blue Pill} & \textbf{Cable color} & \textbf{I2C LCD} \\
+		\hline
+		GND & Black & GND \\
+		\hline
+		5V & Red & 5V \\
+		\hline
+		SCL1 (Pin PB6) & Blue & SCL \\
+		\hline
+		SDA1 (Pin PB7) & Green & SDA \\
+		\hline
+	\end{tabular}
+\caption{Connection "Blue Pill" to I2C adapter of the LCD (Setup 2)}
+\label{table:ConnectionI2C}
+\end{table}
+The connection between the "Blue Pill" board and the USB/Serial adapter is equal to setup 1 (Table \ref{table:ConnectionSerial1}).
 
-\newpage
+
 \appendix
 \section{Appendix A}
 \subsection{Pin-out of the "Blue Pill" board}
