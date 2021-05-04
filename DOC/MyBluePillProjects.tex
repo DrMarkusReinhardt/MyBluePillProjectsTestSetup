@@ -126,31 +126,36 @@
 \newpage
 \pagestyle{scrheadings}
 \section{Project goals}
-The project is created to test the HW / SW setup for projects based on the so-called "Blue Pill STM32 board".
+The projects are created to test the basic HW / SW concepts for projects based on the so-called "Blue Pill STM32 board".
 
-The SW setup is based on VSCode with PlatformIO extension and STM32 board operated with the Arduino environment.
+The used IDE is based on VSCode with PlatformIO extension and STM32 board operated with the Arduino environment.
 
 The HW setup allows to program the board with an ST-Link V2 adapter and also serial communications with a (Linux) PC
 via a USB/Serial adapter.
 
 In a second HW setup the control of a LCD via the I2C interface is tested.
 
+In a third project two rotary encoders are used as input devices.
+
+In a fourth project the ADC of the STM32 processor is tested with different resolutions.
+
 The "Blue Pill" STM32 board has a STM32F103C8T6 processor with 20KB RAM and 64KB EEPROM running at 72MHz.
 See also \href{https://docs.platformio.org/en/latest//boards/ststm32/bluepill_f103c8.html}{"Blue Pill F103C8" in PlatformIO}.
 
-\section{Project 1 Hardware Setup}
-The project setup for the HW part is shown in figure \ref{fig:HWSetup}.
+\section{Project1: Hardware Setup}
+A simple HW setup is shown in figure \ref{fig:HWSetup}.
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=1.0\linewidth]{Figures/HardwareSetup_BluePill+STLinkV2+USBSerialAdapter.jpeg}
-	\caption{Hardware setup}
+	\caption{Project 1 hardware setup}
 	\label{fig:HWSetup}
 \end{figure}
 
-Note: The jumper positions of the two yellow jumpers on the (blue colored) "Blue Pill" board.\\
+Note the jumper positions of the two yellow jumpers on the (blue colored) "Blue Pill" board!\\
 
-Programming is done with the (metallic blue) ST-Link V2 module. There are four pins connected with the Blue Pill board.
-The connections are done as follows (Table \ref{table:ConnectionSTLink1}):
+Programming is done with the (metallic blue colored) ST-Link V2 module. Also the 3.3V power supply for the "Blue Pill" board is delivered by this module.
+There are four pins of the module connected with the "Blue Pill" board.
+The connections are as follows (Table \ref{table:ConnectionSTLink1}):
 \begin{table}[htbp]
 \centering
 \begin{tabular}{|c|c|c|}
@@ -166,11 +171,11 @@ The connections are done as follows (Table \ref{table:ConnectionSTLink1}):
 	DIO & Yellow & SWDIO (Pin 4) \\
 	\hline
 \end{tabular}
-\caption{Connection Blue Pill to ST-Link V2}
+\caption{Connection "Blue Pill" to ST-Link V2}
 \label{table:ConnectionSTLink1}
 \end{table}
 
-A USART serial interfacing between the Blue Pill board and the PC / IDE is realized with the (red) USB/Serial adapter board.
+A USART interfacing between the Blue Pill board and the PC / IDE is realized with the (red colored) USB/Serial adapter board.
 Note the jumper position on the board is such that the 3.3V output voltage is provided (but not connected in this setup) as the "Blue
 Pill" processor is operated with 3.3V. In the software the Arduino Serial1 interface port is used.
 The connection between the USB/Serial adapter and the Blue Pill board is done as follows (Table \ref{table:ConnectionSerial1}):
@@ -187,14 +192,14 @@ The connection between the USB/Serial adapter and the Blue Pill board is done as
 	RX1 (Pin PA10) & Brown & TX \\
 	\hline
 \end{tabular}
-\caption{Connection Blue Pill to USB/Serial adapter (Setup 1)}
+\caption{Connection "Blue Pill" to USB/Serial adapter}
 \label{table:ConnectionSerial1}
 \end{table}
 
 The USB/Serial adapter appears under /dev/ttyUSB0 in the Linux operating system. This port has to be selected in the IDE, when the Serial Monitor is activated.
 
-\section{Project 1 Software Setup (first sketch)}
-The project setup for the IDE part with the first Arduino sketch is shown in figure \ref{fig:IDESetup}.
+\section{Project 1: PlatformIO IDE }
+The IDE for project 1 with the first Arduino sketch is shown in figure \ref{fig:IDESetup}.
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=1.0\linewidth]{Figures/VSCode+PlatformIO+SerialMonitor+Blinky.png}
@@ -217,14 +222,15 @@ Program download is done by pressing the "Right Arrow" button.
 
 Activation of the Serial Arduino Monitor is done with the "Plug" button.
 
-To switch back to the PlatofromIO home screen is done with the "Home" button. 
+To switch back to the PlatfromIO home screen is done with the "Home" button. 
 
-\subsection{Project 2: LCD control via I2C (second sketch)}
+\newpage
+\section{Project 2: LCD control via I2C}
 The IDE with the second Arduino sketch is shown in figure \ref{fig:IDESetup2}.
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.85\linewidth]{Figures/Test_BluePill_I2C_LCD_IDE.png}
-	\caption{VSCode/PlatformIO IDE (second sketch)}
+	\caption{VSCode/PlatformIO IDE}
 	\label{fig:IDESetup2}
 \end{figure}
 The sketch controls a 16x4 character LCD connected to the "Blue Pill" board via the I2C interface.\\
@@ -234,7 +240,7 @@ The HW setup for this test is shown in figure \ref{fig:HWSetupI2CLCD}
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=1.0\linewidth]{Figures/Test_BluePill_I2C_LCD_HWSetup.jpeg}
-	\caption{VSCode/PlatformIO IDE (second sketch)}
+	\caption{Project 2 HW setup with I2C-LCD}
 	\label{fig:HWSetupI2CLCD}
 \end{figure}
 The connection from the ST-Link V2 adapter to the "Blue Pill" board is now using the 5V pins according to the following table
@@ -255,7 +261,7 @@ The 3.3V for the processor is now provided by the on-board fixed power regulator
 		DIO & Yellow & SWDIO (Pin 4) \\
 		\hline
 	\end{tabular}
-\caption{Connection "Blue Pill" to USB/Serial adapter (Setup 2)}
+\caption{Connection "Blue Pill" to USB/Serial adapter}
 \label{table:ConnectionSTLink2}
 \end{table}
 The connection between the "Blue Pill" board and the I2C adapter of the LCD is done here as follows (Table \ref{table:ConnectionI2C}):
@@ -274,12 +280,99 @@ The connection between the "Blue Pill" board and the I2C adapter of the LCD is d
 		SDA1 (Pin PB7) & Green & SDA \\
 		\hline
 	\end{tabular}
-\caption{Connection "Blue Pill" to I2C adapter of the LCD (Setup 2)}
+\caption{Connection "Blue Pill" to I2C adapter of the LCD}
 \label{table:ConnectionI2C}
 \end{table}
 The connection between the "Blue Pill" board and the USB/Serial adapter is equal to setup 1 (Table \ref{table:ConnectionSerial1}).
 
+\newpage
+\section{Project 3: Test of Rotary Encoders}
+Figure \ref{fig:BluePillRotEnc} shows the test of two rotary encoders  at the "Blue Pill" board.
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.8\linewidth]{Figures/Test_BluePill_RotaryEncoder.jpeg}
+	\caption{Rotary encoder test at the "Blue Pill" board}
+	\label{fig:BluePillRotEnc}
+\end{figure}
+The connection of the rotary encoders is done according to the following tables
+\ref{table:ConnectionRotEnc1}, \ref{table:ConnectionRotEnc2} ):
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+		\textbf{Blue Pill} & \textbf{Cable color} & \textbf{rotary encoder 1} \\
+		\hline
+		GND & Black & GND \\
+		\hline
+		5V & Red & 5V \\
+		\hline
+		Pin PB12 & White & SW \\
+		\hline
+		Pin PB13 & Blue & DT \\
+        \hline
+  		Pin PB14 & Yellow & CLK \\
+		\hline
+	\end{tabular}
+\caption{Connection "Blue Pill" to rotary encoder 1}
+\label{table:ConnectionRotEnc1}
+\end{table}
 
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{|c|c|c|}		
+	\hline
+		\textbf{Blue Pill} & \textbf{Cable color} & \textbf{rotary encoder 2} \\
+		\hline
+		GND & Black & GND \\
+		\hline
+		5V & Red & 5V \\
+		\hline
+		Pin PB3 & White & SW \\
+		\hline
+		Pin PB4 & Blue & DT \\
+		\hline
+		Pin PB5 & Green & CLK \\
+		\hline
+	\end{tabular}
+	\caption{Connection "Blue Pill" to rotary encoder 2}
+	\label{table:ConnectionRotEnc2}
+\end{table}
+A key press or a turn of a rotary encoder creates a HW interrupt on the processor. The specific interrupt service routines evaluate the key hits and determine the turn direction.
+
+\newpage
+\section{Project 4: Test of the ADC}
+The ADC of the "Blue Pill processor in the Arduino environment can be programmed to use for the resolution a different number of bits. 
+Figure \ref{fig:BluePillADC} shows the ADC characteristic of the "Blue Pill" processor for the 10bit and 12bit cases.
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.9\linewidth]{Figures/BluePillADCCharacteristic.png}
+	\caption{ADC characteristic of the "Blue Pill" processor}
+	\label{fig:BluePillADC}
+\end{figure}
+The figures show in red color the measured ADC characteristic and in blue the ideal linear ADC characteristics.
+The ADC reference voltage ($V_{ref}$) is equal to the power supply voltage of the processor of 3.3V.
+The ADC value is given the as follows:\\
+For the 10bit ADC resolution case:
+\begin{equation*}
+ \text{ADCValue} = \text{voltage (at ADC pin Ax)} ~/~ V_{ref} \cdot 1024
+\end{equation*}
+For the 12bit ADC resolution case:
+\begin{equation*}
+\text{ADCValue} = \text{voltage (at ADC pin Ax)} ~/~ V_{ref} \cdot 4096
+\end{equation*}
+
+\newpage
+\section{Project 5: Test of PWM}
+The STM32 processor of the "Blue Pill" board has multiple PWM capable pins.
+Figure \ref{fig:BluePillPWM} shows the generated PWM signal of the "Blue Pill" processor on the screen of a hand-held oscilloscope.
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.9\linewidth]{Figures/Test_BluePill_PWM.jpeg}
+	\caption{PWM signal of the "Blue Pill" processor}
+	\label{fig:BluePillPWM}
+\end{figure} 
+
+\newpage
 \appendix
 \section{Appendix A}
 \subsection{Pin-out of the "Blue Pill" board}
