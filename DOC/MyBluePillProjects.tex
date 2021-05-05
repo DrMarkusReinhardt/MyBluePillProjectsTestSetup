@@ -142,6 +142,8 @@ In a fourth project the ADC of the STM32 processor is tested with different reso
 The "Blue Pill" STM32 board has a STM32F103C8T6 processor with 20KB RAM and 64KB EEPROM running at 72MHz.
 See also \href{https://docs.platformio.org/en/latest//boards/ststm32/bluepill_f103c8.html}{"Blue Pill F103C8" in PlatformIO}.
 
+All the programs described below developed in the PlatformIO IDE are saved in the overall project Gitea repository.
+
 \section{Project1: Hardware Setup}
 A simple HW setup is shown in figure \ref{fig:HWSetup}.
 \begin{figure}[htbp]
@@ -224,6 +226,9 @@ Activation of the Serial Arduino Monitor is done with the "Plug" button.
 
 To switch back to the PlatfromIO home screen is done with the "Home" button. 
 
+The project's software directory is \verb!BluePillBlinky!.
+
+
 \newpage
 \section{Project 2: LCD control via I2C}
 The IDE with the second Arduino sketch is shown in figure \ref{fig:IDESetup2}.
@@ -285,6 +290,8 @@ The connection between the "Blue Pill" board and the I2C adapter of the LCD is d
 \end{table}
 The connection between the "Blue Pill" board and the USB/Serial adapter is equal to setup 1 (Table \ref{table:ConnectionSerial1}).
 
+The project's software directory is \verb!TestBluePillI2C!.
+
 \newpage
 \section{Project 3: Test of Rotary Encoders}
 Figure \ref{fig:BluePillRotEnc} shows the test of two rotary encoders  at the "Blue Pill" board.
@@ -339,6 +346,9 @@ The connection of the rotary encoders is done according to the following tables
 \end{table}
 A key press or a turn of a rotary encoder creates a HW interrupt on the processor. The specific interrupt service routines evaluate the key hits and determine the turn direction.
 
+The project's software directory is \verb!TestBluePillRotaryEncoders!.
+
+
 \newpage
 \section{Project 4: Test of the ADC}
 The ADC of the "Blue Pill processor in the Arduino environment can be programmed to use for the resolution a different number of bits. 
@@ -361,6 +371,9 @@ For the 12bit ADC resolution case:
 \text{ADCValue} = \text{voltage (at ADC pin Ax)} ~/~ V_{ref} \cdot 4096
 \end{equation*}
 
+The project's software directory is \verb!TestBluePillADC!.
+
+
 \newpage
 \section{Project 5: Test of PWM}
 The STM32 processor of the "Blue Pill" board has multiple PWM capable pins.
@@ -370,7 +383,17 @@ Figure \ref{fig:BluePillPWM} shows the generated PWM signal of the "Blue Pill" p
 	\includegraphics[width=0.9\linewidth]{Figures/Test_BluePill_PWM.jpeg}
 	\caption{PWM signal of the "Blue Pill" processor}
 	\label{fig:BluePillPWM}
-\end{figure} 
+\end{figure}
+
+The project's software directory is \verb!TestBluePillPWM!.
+
+
+\newpage
+\section{Project 6: Test of Flash Storage}
+The STM32 processor of the "Blue Pill" board has no EEPROM like AVR devices, but the flash memory can be reused to emulate EEPROM storage.
+The project tested writing and retrieving standard and custom data types to the flash.
+
+The project's software directory is \verb!TestBluePillFlashStorage!.
 
 \newpage
 \appendix
