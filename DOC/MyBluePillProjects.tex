@@ -390,8 +390,9 @@ The project's software directory is \verb!TestBluePillPWM!.
 
 \newpage
 \section{Project 6: Test of Flash Storage}
-The STM32 processor of the "Blue Pill" board has no EEPROM like AVR devices, but the flash memory can be reused to emulate EEPROM storage.
-The project tested writing and retrieving standard and custom data types to the flash.
+The STM32 processor of the "Blue Pill" board has no EEPROM like AVR devices, but parts of the program flash memory can be reused to emulate EEPROM storage.
+The project tested writing and retrieving standard and custom data types to and from the flash memory.
+It used the library from here \href{https://github.com/khoih-prog/FlashStorage_STM32}{Github Library FlashStorage\_STM32}.
 
 The project's software directory is \verb!TestBluePillFlashStorage!.
 
