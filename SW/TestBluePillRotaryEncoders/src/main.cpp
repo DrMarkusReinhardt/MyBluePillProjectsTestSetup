@@ -85,7 +85,7 @@ MR_GUI_LIB::RotaryEncoderHandler2 reh2("REH2",&rotEnc2);
 // create the MMI handler
 MR_LiPo_Charger::MMIHandler mmiHandler(&reh1, &reh2);
 
-
+// loop counter
 uint32_t counter = 0;
 
 void setup() 
@@ -109,102 +109,14 @@ void setup()
   Serial.println("Setup done");
 }
 
-void checkRotEnc1KeyPressed()
-{
-  noInterrupts();
-  if (pendingInterruptRotEnc1KeyPressed == true)
-  {
-    Serial.println("RotEnc 1 key pressed");
-    pendingInterruptRotEnc1KeyPressed = false;
-  }
-  interrupts();
-}
-
-void checkRotEnc1Turned()
-{
-  noInterrupts();
-  if (pendingInterruptRotEnc1Turned == true)
-  {
-    Serial.println("RotEnc 1 turned");
-    pendingInterruptRotEnc1Turned = false;
-  }
-  interrupts();
-}
-
-void checkRotEnc2KeyPressed()
-{
-  noInterrupts();
-  if (pendingInterruptRotEnc2KeyPressed == true)
-  {
-    Serial.println("RotEnc 2 key pressed");
-    pendingInterruptRotEnc2KeyPressed = false;
-  }
-  interrupts();
-}
-
-void checkRotEnc2Turned()
-{
-  noInterrupts();
-  if (pendingInterruptRotEnc2Turned == true)
-  {
-    Serial.println("RotEnc 2 turned");
-    pendingInterruptRotEnc2Turned = false;
-  }
-  interrupts();
-}
-
-
 void loop() 
 {
   // put your main code here, to run repeatedly:
-
-  int16_t rotation1;
-  uint16_t keyPresses1;
-  int16_t rotation2;
-  uint16_t keyPresses2;
-  TurnDirection turnDirection1;
-  String turnDirectionString1;
-  TurnDirection turnDirection2;
-  String turnDirectionString2;
-
   counter++;
   Serial.print(counter);
   Serial.println(" -*-");
 
   mmiHandler.update();
-
-  
-  if (rotEnc1.checkKeyPressed())
-  {
-    keyPresses1 = rotEnc1.handleKeyPress();
-    Serial.print("RotEnc1 no. key pressed = "); Serial.println(keyPresses1);
-  }
-    
-  if (rotEnc1.checkTurned())
-  {
-    rotation1 = rotEnc1.handleTurn();
-    Serial.print("RotEnc1 rotation = "); Serial.println(rotation1);
-    turnDirection1 = rotEnc1.getTurnDirection();
-    Serial.print("RotEnc1 turn direction (enum) = "); Serial.println(turnDirection1);
-    turnDirectionString1 = rotEnc1.getTurnDirectionString();
-    Serial.print("RotEnc1 turn direction (string) = "); Serial.println(turnDirectionString1);
-  }
-
-  if (rotEnc2.checkKeyPressed())
-  {
-    keyPresses2 = rotEnc2.handleKeyPress();
-    Serial.print("RotEnc2 no. key pressed = "); Serial.println(keyPresses2);
-  }
-    
-  if (rotEnc2.checkTurned())
-  {
-    rotation2 = rotEnc2.handleTurn();
-    Serial.print("RotEnc2 rotation = "); Serial.println(rotation2);
-    turnDirection2 = rotEnc2.getTurnDirection();
-    Serial.print("RotEnc2 turn direction (enum) = "); Serial.println(turnDirection2);
-    turnDirectionString2 = rotEnc2.getTurnDirectionString();
-    Serial.print("RotEnc2 turn direction (string) = "); Serial.println(turnDirectionString2);
-  }
 
   delay(1000);
 }
