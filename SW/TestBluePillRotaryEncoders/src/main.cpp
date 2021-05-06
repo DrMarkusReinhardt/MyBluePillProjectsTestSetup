@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "Callback.h"
 #include "Event.h"
+
 #include "RotaryEncoder.h"
 #include "RotaryEncoderHandler1.h"
 #include "RotaryEncoderHandler2.h"
@@ -18,14 +19,22 @@
 volatile bool pendingInterruptRotEnc1KeyPressed = false;
 volatile bool pendingInterruptRotEnc1Turned = false;
 
+volatile uint8_t pinAValRotEnc1;
+volatile uint8_t pinBValRotEnc1;
+
 volatile bool pendingInterruptRotEnc2KeyPressed = false;
 volatile bool pendingInterruptRotEnc2Turned = false;
+
+volatile uint8_t pinAValRotEnc2;
+volatile uint8_t pinBValRotEnc2;
 
 // ISR routine called when the rotary encoder 1 is turned
 void rotEnc1Turned()
 {
   noInterrupts();
   pendingInterruptRotEnc1Turned = true;
+  pinAValRotEnc1 = digitalRead(Encoder1_PinA);
+  pinBValRotEnc1 = digitalRead(Encoder1_PinB);
   interrupts();
 }
 
@@ -42,6 +51,8 @@ void rotEnc2Turned()
 {
   noInterrupts();
   pendingInterruptRotEnc2Turned = true;
+  pinAValRotEnc2 = digitalRead(Encoder2_PinA);
+  pinBValRotEnc2 = digitalRead(Encoder2_PinB);
   interrupts();
 }
 
@@ -53,19 +64,26 @@ void rotEnc2KeyPressed()
   interrupts();
 }         
 
-//  the rotary encoder 1 as input device
-MR_GUI_LIB::RotaryEncoder rotEnc1;
+// the rotary encoder 1 as input device
+MR_GUI_LIB::RotaryEncoder rotEnc1("RotEnc1",Encoder1_PinA,Encoder1_PinB,Encoder1_PinE,
+                                  &pendingInterruptRotEnc1KeyPressed,&pendingInterruptRotEnc1Turned,
+                                  &pinAValRotEnc1,&pinBValRotEnc1);
 
-//  the rotary encoder 2 as input device
-MR_GUI_LIB::RotaryEncoder rotEnc2;
+// the rotary encoder 2 as input device
+MR_GUI_LIB::RotaryEncoder rotEnc2("RotEnc2",Encoder1_PinA,Encoder1_PinB,Encoder1_PinE,
+                                  &pendingInterruptRotEnc2KeyPressed,&pendingInterruptRotEnc2Turned,
+                                  &pinAValRotEnc2,&pinBValRotEnc2);
 
+/// the rotary encoder handler for rotary encoder 1 to support the signals&slots mechanics
+MR_GUI_LIB::RotaryEncoderHandler1 reh1("REH1",&rotEnc1);
 
-MR_GUI_LIB::RotaryEncoderHandler1 reh1("reh1");
-MR_GUI_LIB::RotaryEncoderHandler2 reh2("reh2");
+/// the rotary encoder handler for rotary encoder 2 to support the signals&slots mechanics
+MR_GUI_LIB::RotaryEncoderHandler2 reh2("REH2",&rotEnc2);
 
 uint32_t counter = 0;
 
-void setup() {
+void setup() 
+{
   // put your setup code here, to run once:
   Serial.begin(9600);
 
@@ -78,7 +96,7 @@ void setup() {
   // reh2.setup(&rotEnc2,Encoder2_PinA, Encoder2_PinB, Encoder2_PinE);
   attachInterrupt(digitalPinToInterrupt(Encoder2_PinB), rotEnc2Turned, RISING);
   attachInterrupt(digitalPinToInterrupt(Encoder2_PinE), rotEnc2KeyPressed, FALLING);
-
+  
   Serial.println("Setup done");
 }
 
@@ -127,16 +145,54 @@ void checkRotEnc2Turned()
 }
 
 
-void loop() {
+void loop() 
+{
   // put your main code here, to run repeatedly:
+
+  int16_t rotation1;
+  uint16_t keyPresses1;
+  int16_t rotation2;
+  uint16_t keyPresses2;
+  TurnDirection turnDirection1;
+  String turnDirectionString1;
+  TurnDirection turnDirection2;
+  String turnDirectionString2;
+
   counter++;
   Serial.print(counter);
   Serial.println(" -*-");
+  
+  if (rotEnc1.checkKeyPressed())
+  {
+    keyPresses1 = rotEnc1.handleKeyPress();
+    Serial.print("RotEnc1 no. key pressed = "); Serial.println(keyPresses1);
+  }
+    
+  if (rotEnc1.checkTurned())
+  {
+    rotation1 = rotEnc1.handleTurn();
+    Serial.print("RotEnc1 rotation = "); Serial.println(rotation1);
+    turnDirection1 = rotEnc1.getTurnDirection();
+    Serial.print("RotEnc1 turn direction (enum) = "); Serial.println(turnDirection1);
+    turnDirectionString1 = rotEnc1.getTurnDirectionString();
+    Serial.print("RotEnc1 turn direction (string) = "); Serial.println(turnDirectionString1);
+  }
 
-  checkRotEnc1KeyPressed();
-  checkRotEnc1Turned();
-  checkRotEnc2KeyPressed();
-  checkRotEnc2Turned();
+  if (rotEnc2.checkKeyPressed())
+  {
+    keyPresses2 = rotEnc2.handleKeyPress();
+    Serial.print("RotEnc2 no. key pressed = "); Serial.println(keyPresses2);
+  }
+    
+  if (rotEnc2.checkTurned())
+  {
+    rotation2 = rotEnc2.handleTurn();
+    Serial.print("RotEnc2 rotation = "); Serial.println(rotation2);
+    turnDirection2 = rotEnc2.getTurnDirection();
+    Serial.print("RotEnc2 turn direction (enum) = "); Serial.println(turnDirection2);
+    turnDirectionString2 = rotEnc2.getTurnDirectionString();
+    Serial.print("RotEnc2 turn direction (string) = "); Serial.println(turnDirectionString2);
+  }
 
   delay(1000);
 }

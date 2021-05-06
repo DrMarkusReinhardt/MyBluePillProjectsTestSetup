@@ -18,6 +18,7 @@
 
 #include "RotaryEncoderSlotsAbstractBase1.h"
 #include "RotaryEncoderHandler.h"
+#include "Event.h"
 
 namespace MR_GUI_LIB
 {
@@ -26,26 +27,27 @@ class RotaryEncoderHandler1 : public RotaryEncoderHandler
 {
 public:
   /// constructor
-  RotaryEncoderHandler1(const char* initName) : RotaryEncoderHandler(initName)
+  RotaryEncoderHandler1(const char* initName, MR_GUI_LIB::RotaryEncoder *initRotEnc) 
+   : RotaryEncoderHandler(initName,initRotEnc)
   {}
 
   /// attach a class with a rotary encoder slot to the rotary encoder handlers's turn signal
-  void attachTurnSignal2WidgetSlot(RotaryEncoderSlotsAbstractBase1 *slotClass)
+  void attachTurnSignal2EventSlot(RotaryEncoderSlotsAbstractBase1 *slotClass)
   {
     // connect the widget to the turn signal
     // Serial.println(F("Rotary encoder handler 1: connect widget to the turn signal"));
     // Serial.print(F("slot class = ")); Serial.println(slotClass->printName());
-    MethodSlot<RotaryEncoderSlotsAbstractBase1,int16_t> turnSlot(&(*slotClass), &RotaryEncoderSlotsAbstractBase1::OnRotaryEncoder1TurnReceived);
+    MethodSlot< RotaryEncoderSlotsAbstractBase1, Event<int16_t> > turnSlot(&(*slotClass), &RotaryEncoderSlotsAbstractBase1::OnRotaryEncoder1TurnReceived);
     turnSignal.Connect(turnSlot);
   }
 
-  void attachKeyPressSignal2WidgetSlot(RotaryEncoderSlotsAbstractBase1 *slotClass)
+  void attachKeyPressSignal2EventSlot(RotaryEncoderSlotsAbstractBase1 *slotClass)
   {
     // connect the widget to the key press signal
     // Serial.print(name_);
     // Serial.println(F("Rotary encoder handler 1: connect widget to the key press signal"));
     // Serial.print(F("slot class = ")); Serial.println(slotClass->printName());
-    MethodSlot<RotaryEncoderSlotsAbstractBase1,uint16_t> keyPressSlot(&(*slotClass), &RotaryEncoderSlotsAbstractBase1::OnRotaryEncoder1KeyPressReceived);
+    MethodSlot<RotaryEncoderSlotsAbstractBase1, Event<uint16_t> > keyPressSlot(&(*slotClass), &RotaryEncoderSlotsAbstractBase1::OnRotaryEncoder1KeyPressReceived);
     keyPressSignal.Connect(keyPressSlot);
   }
 };

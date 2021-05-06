@@ -26,7 +26,8 @@ class RotaryEncoderHandler2 : public RotaryEncoderHandler
 {
 public:
   /// constructor
-  RotaryEncoderHandler2(const char* initName) : RotaryEncoderHandler(initName)
+  RotaryEncoderHandler2(const char* initName, MR_GUI_LIB::RotaryEncoder *initRotEnc) 
+   : RotaryEncoderHandler(initName,initRotEnc)
   {}
 
   /// attach a class with a rotary encoder slot to the rotary encoder handlers's turn signal
