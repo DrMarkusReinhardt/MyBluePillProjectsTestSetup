@@ -6,6 +6,8 @@
 #include "RotaryEncoderHandler1.h"
 #include "RotaryEncoderHandler2.h"
 
+#include "MMIHandler.h"
+
 // pin definitions of rotary encoder 1
 #define Encoder1_PinA PB14
 #define Encoder1_PinB PB13
@@ -74,11 +76,15 @@ MR_GUI_LIB::RotaryEncoder rotEnc2("RotEnc2",Encoder1_PinA,Encoder1_PinB,Encoder1
                                   &pendingInterruptRotEnc2KeyPressed,&pendingInterruptRotEnc2Turned,
                                   &pinAValRotEnc2,&pinBValRotEnc2);
 
-/// the rotary encoder handler for rotary encoder 1 to support the signals&slots mechanics
+// the rotary encoder handler for rotary encoder 1 to support the signals&slots mechanics
 MR_GUI_LIB::RotaryEncoderHandler1 reh1("REH1",&rotEnc1);
 
-/// the rotary encoder handler for rotary encoder 2 to support the signals&slots mechanics
+// the rotary encoder handler for rotary encoder 2 to support the signals&slots mechanics
 MR_GUI_LIB::RotaryEncoderHandler2 reh2("REH2",&rotEnc2);
+
+// create the MMI handler
+MR_LiPo_Charger::MMIHandler mmiHandler(&reh1, &reh2);
+
 
 uint32_t counter = 0;
 
@@ -96,6 +102,9 @@ void setup()
   // reh2.setup(&rotEnc2,Encoder2_PinA, Encoder2_PinB, Encoder2_PinE);
   attachInterrupt(digitalPinToInterrupt(Encoder2_PinB), rotEnc2Turned, RISING);
   attachInterrupt(digitalPinToInterrupt(Encoder2_PinE), rotEnc2KeyPressed, FALLING);
+
+  // setup the MMI handler
+  mmiHandler.setup();
   
   Serial.println("Setup done");
 }
@@ -161,6 +170,9 @@ void loop()
   counter++;
   Serial.print(counter);
   Serial.println(" -*-");
+
+  mmiHandler.update();
+
   
   if (rotEnc1.checkKeyPressed())
   {

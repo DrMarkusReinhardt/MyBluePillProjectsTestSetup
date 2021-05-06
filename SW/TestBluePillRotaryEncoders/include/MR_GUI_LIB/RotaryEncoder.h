@@ -109,7 +109,7 @@ bool RotaryEncoder::checkKeyPressed()
 {
   if (*m_pendingInterruptKeyPressed == true)
   {
-    Serial.print(m_id); Serial.println(" key pressed");
+    // Serial.print(m_id); Serial.println(" key pressed");
     *m_pendingInterruptKeyPressed = false;
     return true;
   }
@@ -121,7 +121,7 @@ bool RotaryEncoder::checkTurned()
 {
   if (*m_pendingInterruptTurned == true)
   {
-    Serial.print(m_id); Serial.println(" turned");
+    // Serial.print(m_id); Serial.println(" turned");
     *m_pendingInterruptTurned = false;
     return true;
   }

@@ -16,6 +16,7 @@
  */
 #pragma once
 
+#include "RotaryEncoder.h"
 #include "RotaryEncoderSlotsAbstractBase1.h"
 #include "RotaryEncoderHandler.h"
 #include "Event.h"
@@ -31,23 +32,37 @@ public:
    : RotaryEncoderHandler(initName,initRotEnc)
   {}
 
-  /// attach a class with a rotary encoder slot to the rotary encoder handlers's turn signal
-  void attachTurnSignal2EventSlot(RotaryEncoderSlotsAbstractBase1 *slotClass)
+  /// attach a class with a rotary encoder slot to the rotary encoder handlers's turn value signal
+  void attachTurnValueSignal2EventSlot(MR_GUI_LIB::RotaryEncoderSlotsAbstractBase1 *slotClass)
   {
-    // connect the widget to the turn signal
+    // connect the slot to the turn signal
     // Serial.println(F("Rotary encoder handler 1: connect widget to the turn signal"));
     // Serial.print(F("slot class = ")); Serial.println(slotClass->printName());
-    MethodSlot< RotaryEncoderSlotsAbstractBase1, Event<int16_t> > turnSlot(&(*slotClass), &RotaryEncoderSlotsAbstractBase1::OnRotaryEncoder1TurnReceived);
-    turnSignal.Connect(turnSlot);
+    MethodSlot< MR_GUI_LIB::RotaryEncoderSlotsAbstractBase1, Event<int16_t> > turnValueSlot(&(*slotClass), 
+      &MR_GUI_LIB::RotaryEncoderSlotsAbstractBase1::OnRotaryEncoder1TurnValueReceived);
+    turnValueSignal.Connect(turnValueSlot);
   }
 
-  void attachKeyPressSignal2EventSlot(RotaryEncoderSlotsAbstractBase1 *slotClass)
+  /// attach a class with a rotary encoder slot to the rotary encoder handlers's turn direction signal
+  void attachTurnDirectionSignal2EventSlot(MR_GUI_LIB::RotaryEncoderSlotsAbstractBase1 *slotClass)
   {
-    // connect the widget to the key press signal
+    // connect the slot to the turn signal
+    // Serial.println(F("Rotary encoder handler 1: connect widget to the turn signal"));
+    // Serial.print(F("slot class = ")); Serial.println(slotClass->printName());
+    MethodSlot< MR_GUI_LIB::RotaryEncoderSlotsAbstractBase1, Event<TurnDirection> > turnDirectionSlot(&(*slotClass), 
+         &MR_GUI_LIB::RotaryEncoderSlotsAbstractBase1::OnRotaryEncoder1TurnDirectionReceived);
+    turnDirectionSignal.Connect(turnDirectionSlot);
+  }
+
+  /// attach a class with a rotary encoder slot to the rotary encoder handlers's key press signal
+  void attachKeyPressSignal2EventSlot(MR_GUI_LIB::RotaryEncoderSlotsAbstractBase1 *slotClass)
+  {
+    // connect the slot to the key press signal
     // Serial.print(name_);
     // Serial.println(F("Rotary encoder handler 1: connect widget to the key press signal"));
     // Serial.print(F("slot class = ")); Serial.println(slotClass->printName());
-    MethodSlot<RotaryEncoderSlotsAbstractBase1, Event<uint16_t> > keyPressSlot(&(*slotClass), &RotaryEncoderSlotsAbstractBase1::OnRotaryEncoder1KeyPressReceived);
+    MethodSlot<MR_GUI_LIB::RotaryEncoderSlotsAbstractBase1, Event<uint16_t> > keyPressSlot(&(*slotClass), 
+      &MR_GUI_LIB::RotaryEncoderSlotsAbstractBase1::OnRotaryEncoder1KeyPressReceived);
     keyPressSignal.Connect(keyPressSlot);
   }
 };

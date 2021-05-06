@@ -51,12 +51,14 @@ public:
   /// get the rotary encoder turn direction
   TurnDirection getTurnDirection()
   {
+    m_rotEnc->handleTurn();
     return m_rotEnc->getTurnDirection();
   }
 
   /// get the rotary encoder turn direction as a string
   String getTurnDirectionString()
   {
+    m_rotEnc->handleTurn();
     return m_rotEnc->getTurnDirectionString();
   }
 
@@ -69,27 +71,44 @@ public:
   /// get rotation value from last turn
   int16_t getRotationValue()
   {
-    m_rotationValue = m_rotEnc->getRotationValue();
+    m_rotationValue = m_rotEnc->handleTurn();
+    // Serial.print("reh1: rotation value = "); Serial.println(m_rotationValue);
     return m_rotationValue;
   };
 
   /// get key hits value
   uint16_t getKeyHitsValue()
   {
-    m_noKeyHits = m_rotEnc->getSwitchVariable();
+    m_noKeyHits = m_rotEnc->handleKeyPress();
     return m_noKeyHits;
   }
 
-  /// notify widgets when the rotary encoder is turned
-  void notifyTurn()
+  /// notify widgets when the rotary encoder is turned with argument turn value
+  void notifyTurnValue()
   {  
     // create the turn event
     String evString("Turn");
     evString += String(m_id);
-    Event<int16_t>  ev(evString, getRotationValue());
+    int16_t rotationValue = getRotationValue();
+    // Serial.print("notifyTurn: rotation value = "); Serial.println(rotationValue);
+    Event<int16_t>  ev(evString, rotationValue);
 
-    // emit the turn signal sending the event
-    turnSignal.Emit(ev);
+    // emit the turn value signal sending the event
+    turnValueSignal.Emit(ev);
+  }
+
+    /// notify widgets when the rotary encoder is turned with argument turn direction
+  void notifyTurnDirection()
+  {  
+    // create the turn event
+    String evString("Turn");
+    evString += String(m_id);
+    TurnDirection turnDirection = getTurnDirection();
+    // Serial.print("notifyTurnDirection: turn direction = "); Serial.println(turnDirection);
+    Event<TurnDirection>  ev(evString, turnDirection);
+
+    // emit the turn direction signal sending the event
+    turnDirectionSignal.Emit(ev);
   }
 
   /// notify widgets when the key is pressed
@@ -104,8 +123,11 @@ public:
     keyPressSignal.Emit(ev);
   }
 
-  /// the signal with argument when the rotary encoder is turned
-  Signal< Event<int16_t> > turnSignal;
+  /// the signal with value argument when the rotary encoder is turned
+  Signal< Event<int16_t> > turnValueSignal;
+
+  /// the signal with direction argument when the rotary encoder is turned
+  Signal< Event<TurnDirection> > turnDirectionSignal;
 
   /// the signal with argument when the rotary encoder key is pressed
   Signal< Event<uint16_t> > keyPressSignal;

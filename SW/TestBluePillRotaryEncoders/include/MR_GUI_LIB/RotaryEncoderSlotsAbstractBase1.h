@@ -13,6 +13,7 @@
 #pragma once
 
 #include <Arduino.h>
+#include "Event.h"
 
 namespace MR_GUI_LIB
 {
@@ -23,14 +24,17 @@ public:
   RotaryEncoderSlotsAbstractBase1()
   {};
 
-  /// the update routine to handle the rotary encoder turn signal
-  virtual void OnRotaryEncoder1TurnReceived(Event<int16_t> turnEvent)=0;
+  /// the update routine to handle the rotary encoder turn signal with argument turn value
+  virtual void OnRotaryEncoder1TurnValueReceived(MR_GUI_LIB::Event<int16_t> turnValueEvent)=0;
+
+  /// the update routine to handle the rotary encoder turn signal with argument turn direction
+  virtual void OnRotaryEncoder1TurnDirectionReceived(MR_GUI_LIB::Event<TurnDirection> turnDirectionEvent)=0;
 
   /// the update routine to handle the rotary encoder key press signal
-  virtual void OnRotaryEncoder1KeyPressReceived(Event<uint16_t> keyPressEvent)=0;
+  virtual void OnRotaryEncoder1KeyPressReceived(MR_GUI_LIB::Event<uint16_t> keyPressEvent)=0;
 
   /// to print out the name of the slot class
-  virtual String printName() = 0;
+  virtual String getId() = 0;
 };
 
 } // namespace MR_GUI_LIB
