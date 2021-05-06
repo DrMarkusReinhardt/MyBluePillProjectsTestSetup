@@ -7,7 +7,9 @@
 
 #include "Arduino.h"
 #include "RotaryEncoderHandler1.h"
+#include "RotaryEncoderHandler2.h"
 #include "RotaryEncoderSlotsAbstractBase1.h"
+#include "RotaryEncoderSlotsAbstractBase2.h"
 #include "TestRotaryEncoderSlot.h"
 
 namespace MR_LiPo_Charger

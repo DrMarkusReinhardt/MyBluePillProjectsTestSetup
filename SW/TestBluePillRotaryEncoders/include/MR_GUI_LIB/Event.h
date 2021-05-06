@@ -7,15 +7,12 @@
 */
 #pragma once
 
-#include "Event.h"
-
 namespace MR_GUI_LIB
 {
 
 template<typename ParameterType>
 class Event
 {
-  
 public:
   Event(String initId) : m_id(initId) 
   {}

@@ -13,7 +13,7 @@
 #include <TaskScheduler.h>
 #include "ApplicationParameters.h"
 #include "ChargeHandler.h"
-#include "MMI_FSM.h"
+#include "MMIHandler.h"
 
 // Timed task to do the charge control
 class ChargeControlTask : public TimedTask
@@ -25,16 +25,16 @@ class ChargeControlTask : public TimedTask
 
   private:
     uint32_t m_rate;        // repetition rate
-    MR_GUI_LIB::MMI_FSM *m_mmi;
+    MR_GUI_LIB::MMIHandler *m_mmiHandler;
     MR_LiPo_Charger::ApplicationParameters *m_appParams;
     MR_LiPo_Charger::ChargeHandler *m_chargeHandler;
     
 };
 
 
-ChargeControlTask::ChargeControlTask(uint32_t rate, MR_GUI_LIB::MMI_FSM *mmi, MR_LiPo_Charger::ApplicationParameters *appParams)
+ChargeControlTask::ChargeControlTask(uint32_t rate, MR_GUI_LIB::MMIHandler *mmiHandler, MR_LiPo_Charger::ApplicationParameters *appParams)
 : TimedTask(millis()),
-  m_rate(rate), m_mmi(mmi), m_appParams(appParams)
+  m_rate(rate), m_mmiHandler(mmiHandler), m_appParams(appParams)
 {
   // create the charge handler
   m_chargeHandler = new MR_LiPo_Charger::ChargeHandler(appParams);
