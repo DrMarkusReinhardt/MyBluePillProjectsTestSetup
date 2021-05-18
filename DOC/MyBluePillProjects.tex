@@ -139,7 +139,15 @@ In a third project two rotary encoders are used as input devices.
 
 In a fourth project the ADC of the STM32 processor is tested with different resolutions.
 
-The "Blue Pill" STM32 board has a STM32F103C8T6 processor with 20KB RAM and 64KB EEPROM running at 72MHz.
+In a fifth project the PWM generation is tested.
+
+In a sixth project the usage of Flash storage for string and other constants is tested.
+
+In a seventh project the usage of the FreeRTOS real time operating system is tested with a C based standard way of task definition.
+ 
+In an eight project the usage of the FreeRTOS real time operating system is tested with a C++ based way of task definition.
+
+The "Blue Pill" STM32 board has a6 STM32F103C8T6 processor with 20KB RAM and 64KB EEPROM running at 72MHz.
 See also \href{https://docs.platformio.org/en/latest//boards/ststm32/bluepill_f103c8.html}{"Blue Pill F103C8" in PlatformIO}.
 
 All the programs described below developed in the PlatformIO IDE are saved in the overall project Gitea repository.
@@ -373,8 +381,6 @@ For the 12bit ADC resolution case:
 
 The project's software directory is \verb!TestBluePillADC!.
 
-
-\newpage
 \section{Project 5: Test of PWM}
 The STM32 processor of the "Blue Pill" board has multiple PWM capable pins.
 Figure \ref{fig:BluePillPWM} shows the generated PWM signal of the "Blue Pill" processor on the screen of a hand-held oscilloscope.
@@ -388,7 +394,6 @@ Figure \ref{fig:BluePillPWM} shows the generated PWM signal of the "Blue Pill" p
 The project's software directory is \verb!TestBluePillPWM!.
 
 
-\newpage
 \section{Project 6: Test of Flash Storage}
 The STM32 processor of the "Blue Pill" board has no EEPROM like AVR devices, but parts of the program flash memory can be reused to emulate EEPROM storage.
 The project tested writing and retrieving standard and custom data types to and from the flash memory.
@@ -396,14 +401,21 @@ It used the library from here \href{https://github.com/khoih-prog/FlashStorage_S
 
 The project's software directory is \verb!TestBluePillFlashStorage!.
 
-
-\newpage
 \section{Project 7: Test of FreeRTOS (first example)}
-A first example project that uses the FreeRTOS real time operating system (RTOS) is created. It has two tasks. The first task is blinking the on-board LED, the second task is reading
-and digitizing via the ADC the voltage on port A0 and writing the result to the serial port.\\
- 
+Installation of STM32FreeRTOS for the PlatformIO environment is described here:\\
+\href{https://platformio.org/lib/show/2093/STM32duino\%20FreeRTOS/installation}{https://platformio.org/lib/show/2093/STM32duino\%20FreeRTOS/installation}\\
+Example sketches using STM32FreeRTOS are here:\\
+\href{https://github.com/stm32duino/STM32FreeRTOS/tree/master/examples}{https://github.com/stm32duino/STM32FreeRTOS/tree/master/examples}\\
+
+A first example project in PlatformIO that uses the STM32FreeRTOS real time operating system (RTOS) is created. It has two tasks. The first task is blinking the on-board LED, 
+the second task is reading and digitizing via the ADC the voltage on port A0 and writing the result to the serial port.\\
 The project's software directory is \verb!TestFreeRTOS1!.
 
+\section{Project 8: Test of FreeRTOS C++ wrapper}
+A first example project in PlatformIO that uses the STM32FreeRTOS with a C++ wrapper for the task definition is created. 
+It has two tasks. The first task is blinking the on-board LED, 
+the second task is reading and digitizing via the ADC the voltage on port A0 and writing the result to the serial port.\\
+The project's software directory is \verb!TestFreeRTOSCPP1!.
 
 \newpage
 \appendix
